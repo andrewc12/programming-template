@@ -1,11 +1,3 @@
-Blog-Assets
-===========
+Corresponding blog post:
 
-This repository contains source codes / assets
-for some posts on my blogs.
-
-My blogs:
----------
-
-* <https://ubuntuincident.wordpress.com/>
-* <http://pythonadventures.wordpress.com/>
+<http://pythonadventures.wordpress.com/2014/02/25/jinja2-example-for-generating-a-local-file-using-a-template/>
