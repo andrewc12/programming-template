@@ -14,7 +14,6 @@ TEMPLATE_ENVIRONMENT = Environment(
 def render_template(template_filename, context):
     return TEMPLATE_ENVIRONMENT.get_template(template_filename).render(context)
 
-
 def create_class_java(context):
     fname = "outputclass.java"
 
@@ -31,6 +30,13 @@ def create_class_dot(context):
         uml = render_template('umlclassgraphviz.jinja', context)
         f.write(uml)
 
+def create_project_dot(context):
+    fname = "outputproject.dot"
+
+    #
+    with open(fname, 'w') as f:
+        uml = render_template('umlprojectgraphviz.jinja', context)
+        f.write(uml)
 
 def main():
     ds = {
@@ -81,6 +87,19 @@ def main():
     
     create_class_java(context)
     create_class_dot(context)
+    
+    ds = {
+            "aggregate": [
+                        ("Country", "country", "GeoData", "countries",),
+                        ("State", "state", "GeoData", "states",)
+                        ]
+        }
+       
+    context = {
+        'ds': ds
+    }
+    
+    create_project_dot(context)
 
 #############################################################################
 

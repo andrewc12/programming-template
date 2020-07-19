@@ -1,0 +1,51 @@
+// https://stackoverflow.com/questions/9251556/problems-with-designing-uml-like-diagrams-in-graphviz
+//http://www.ffnn.nl/pages/articles/media/uml-diagrams-using-graphviz-dot.php
+//https://www.spinellis.gr/umlgraph/doc/indexw.html
+digraph G {
+
+    graph [
+        compound = true     // To clip the head at the cluster border
+        penwidth = 2        // Make the cluster's borders a bit thicker
+        rankdir = "LR"      // Make the arrow and nodes go from Left to Right
+        ranksep = 1         // Add a bit more space inbetween nodes
+    ]
+
+    node [
+        color = none        // Hide the node's border
+        //fontname = "Bitstream Vera Sans"
+        height = 0          // Make the node as small as possible (it will grow if it needs more space)
+        margin = 0          // Remove unneeded whitespace
+        shape = "record"    // So we can use ports
+    ]
+
+    edge [
+        arrowhead = "open"
+        labelangle = -5     // Place the asteriks closer to the line
+        labeldistance = 2.5 // Place the asteriks further away from the arrow head
+        penwidth = 2        // Make the line a bit thicker
+    ]
+
+    /* @NOTE: escaping spaces in the label using '\' doesn't work so use '&nbsp' or '&#92' instead. */
+    
+    
+
+    
+    
+    
+    
+
+    
+{% for relation in ds['aggregate'] %}
+
+    // lhead allows us to point to the cluster's border instead of the node, as long as we add `compound = true` to the graph
+    {{relation[0]}}:{{relation[1]}} -> {{relation[2]}}:{{relation[3]}} [
+        arrowhead = "diamond",
+        ltail = "cluster_{{relation[0]}}",
+        lhead = "cluster_{{relation[2]}}",
+        fillcolor="white"
+    ]
+
+{% endfor %}
+
+
+}
