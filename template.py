@@ -14,6 +14,11 @@ TEMPLATE_ENVIRONMENT = Environment(
 def render_template(template_filename, context):
     return TEMPLATE_ENVIRONMENT.get_template(template_filename).render(context)
 
+def render_template_to_file(template_filename, output_filename, context):
+    with open(output_filename, 'w') as f:
+        output = render_template(template_filename, context)
+        f.write(output)
+
 def create_class_java(context):
     fname = "outputclass.java"
 
