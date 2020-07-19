@@ -2,6 +2,8 @@
 
 import os
 from jinja2 import Environment, FileSystemLoader
+import argparse
+import json
 
 PATH = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_ENVIRONMENT = Environment(
@@ -20,67 +22,21 @@ def render_template_to_file(template_filename, output_filename, context):
         f.write(output)
 
 def main():
-    ds = {
-    "class": {
-                "opts": 0,
-                "name": "GeoData"
-            },
-    "fields": {
-                "opts": 0,
-                "data": [
-                        ("countries", "Country[]"),
-                        ("states", "State[]"),
-                        ("locations", "Location[]"),
-                        ("countryCount", "int"),
-                        ("stateCount", "int"),
-                        ("locationCount", "int")
-                        ]
-                },
-    "methods": {
-                "opts": {"makegetterssetters": True,
-                        "adddefaultmethods": True},
-                "data": [
-                        ("readFile", "String", "void"),
-                        ("writeFile", "String", "void"),
-                        ("addCountry", "Country", "void"),
-                        ("removeCountry", "Country", "void"),
-                        ("addState", "State", "void"),
-                        ("removeState", "State", "void"),
-                        ("addLocation", "Location", "void"),
-                        ("removeLocation", "Location", "void")
-                        ]
-                },
-    }
-                
-    print(ds)
-    
-    if ds['methods']['opts']['adddefaultmethods']:
-        defaultmethods = [
-                        ("toString", "", "String"),
-                        ("equals", "Object inObj", "boolean")
-                        ]
-        ds['methods']['data'].extend(defaultmethods)
+    parser = argparse.ArgumentParser()
 
+    #parser.add_argument('templatefile', type=argparse.FileType('r'))
+    #parser.add_argument('outfile', type=argparse.FileType('w', encoding='UTF-8'))
+    parser.add_argument('contextfile', type=argparse.FileType('r'))
+
+    args = parser.parse_args()
     
-    context = {
-        'ds': ds
-    }
+    with args.contextfile as contextfile:
+        context = json.load(contextfile)
+        
+    print(context)
     
     render_template_to_file('javaclass.jinja', 'outputclass.java', context)
-    render_template_to_file('umlclassgraphviz.jinja', 'outputclass.dot', context)
-    
-    ds = {
-            "aggregate": [
-                        ("Country", "country", "GeoData", "countries",),
-                        ("State", "state", "GeoData", "states",)
-                        ]
-        }
-       
-    context = {
-        'ds': ds
-    }
-    
-    render_template_to_file('umlprojectgraphviz.jinja', 'outputproject.dot', context)
+
 
 #############################################################################
 
