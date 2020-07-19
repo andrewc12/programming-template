@@ -19,30 +19,6 @@ def render_template_to_file(template_filename, output_filename, context):
         output = render_template(template_filename, context)
         f.write(output)
 
-def create_class_java(context):
-    fname = "outputclass.java"
-
-    #
-    with open(fname, 'w') as f:
-        java = render_template('javaclass.jinja', context)
-        f.write(java)
-
-def create_class_dot(context):
-    fname = "outputclass.dot"
-
-    #
-    with open(fname, 'w') as f:
-        uml = render_template('umlclassgraphviz.jinja', context)
-        f.write(uml)
-
-def create_project_dot(context):
-    fname = "outputproject.dot"
-
-    #
-    with open(fname, 'w') as f:
-        uml = render_template('umlprojectgraphviz.jinja', context)
-        f.write(uml)
-
 def main():
     ds = {
     "class": {
@@ -90,8 +66,8 @@ def main():
         'ds': ds
     }
     
-    create_class_java(context)
-    create_class_dot(context)
+    render_template_to_file('javaclass.jinja', 'outputclass.java', context)
+    render_template_to_file('umlclassgraphviz.jinja', 'outputclass.dot', context)
     
     ds = {
             "aggregate": [
@@ -104,7 +80,7 @@ def main():
         'ds': ds
     }
     
-    create_project_dot(context)
+    render_template_to_file('umlprojectgraphviz.jinja', 'outputproject.dot', context)
 
 #############################################################################
 
