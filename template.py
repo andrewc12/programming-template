@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 
 import os
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, BaseLoader
 import argparse
 import json
 
-PATH = os.path.dirname(os.path.abspath(__file__))
-TEMPLATE_ENVIRONMENT = Environment(
-    autoescape=False,
-    loader=FileSystemLoader(os.path.join(PATH, 'templates')),
-    trim_blocks=False,
-    extensions=['jinja2.ext.do'])
 
 
-def render_template(template_filename, context):
-    return TEMPLATE_ENVIRONMENT.get_template(template_filename).render(context)
+def render_template(template_file, context):
+    with template_file as f:
+        TEMPLATE_ENVIRONMENT = Environment(
+        autoescape=False,
+        loader=BaseLoader(),
+        trim_blocks=False,
+        extensions=['jinja2.ext.do']).from_string(f.read())
+    return TEMPLATE_ENVIRONMENT.render(context)
 
 def render_template_to_file(template_filename, output_file, context):
     with output_file as f:
@@ -24,7 +24,7 @@ def render_template_to_file(template_filename, output_file, context):
 def main():
     parser = argparse.ArgumentParser()
 
-    #parser.add_argument('templatefile', type=argparse.FileType('r'))
+    parser.add_argument('templatefile', type=argparse.FileType('r'))
     parser.add_argument('outfile', type=argparse.FileType('w', encoding='UTF-8'))
     parser.add_argument('contextfile', type=argparse.FileType('r'))
 
@@ -36,7 +36,7 @@ def main():
     print(context)
     #print(args)
     
-    render_template_to_file('javaclass.jinja', args.outfile, context)
+    render_template_to_file(args.templatefile, args.outfile, context)
 
 
 #############################################################################
