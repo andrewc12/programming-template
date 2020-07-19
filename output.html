@@ -1,18 +1,167 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Proba</title>
-</head>
-<body>
-<center>
-    <h1>Proba</h1>
-    <p>3 links</p>
-</center>
-<ol align="left">
-<li><a href="http://example.com/1">http://example.com/1</a></li>
-<li><a href="http://example.com/2">http://example.com/2</a></li>
-<li><a href="http://example.com/3">http://example.com/3</a></li>
-</ol>
-</body>
-</html>
+/********************
+*Author: Andrew Innes
+*Date: 20XX/XX/XX
+*Purpose: 
+********************/
+
+import java.io.*;
+
+public class GeoData
+{
+    //Class constants
+    /*public static final ;*/
+
+    //private class fields
+    private Country[] countries;
+    private State[] states;
+    private Location[] locations;
+    private int countryCount;
+    private int stateCount;
+    private int locationCount;
+
+    public GeoData()
+    {
+
+        setCountries(  );
+        setStates(  );
+        setLocations(  );
+        setCountrycount(  );
+        setStatecount(  );
+        setLocationcount(  );
+    }
+
+
+
+    public GeoData(Country[] inCountries, State[] inStates, Location[] inLocations, int inCountrycount, int inStatecount, int inLocationcount)
+    {
+
+        setCountries( inCountries );
+        setStates( inStates );
+        setLocations( inLocations );
+        setCountrycount( inCountrycount );
+        setStatecount( inStatecount );
+        setLocationcount( inLocationcount );
+    }
+
+    public GeoData(GeoData inGeoData)
+    {
+
+    }
+
+
+
+    public void setCountries(Country[] inCountries)
+    {
+        countries = inCountries;
+    }
+
+    public Country[] getCountries()
+    {
+        return countries;
+    }
+
+    public void setStates(State[] inStates)
+    {
+        states = inStates;
+    }
+
+    public State[] getStates()
+    {
+        return states;
+    }
+
+    public void setLocations(Location[] inLocations)
+    {
+        locations = inLocations;
+    }
+
+    public Location[] getLocations()
+    {
+        return locations;
+    }
+
+    public void setCountrycount(int inCountrycount)
+    {
+        countryCount = inCountrycount;
+    }
+
+    public int getCountrycount()
+    {
+        return countryCount;
+    }
+
+    public void setStatecount(int inStatecount)
+    {
+        stateCount = inStatecount;
+    }
+
+    public int getStatecount()
+    {
+        return stateCount;
+    }
+
+    public void setLocationcount(int inLocationcount)
+    {
+        locationCount = inLocationcount;
+    }
+
+    public int getLocationcount()
+    {
+        return locationCount;
+    }
+
+
+
+
+    public void readFile(String)
+    {
+
+    }
+
+    public void writeFile(String)
+    {
+
+    }
+
+    public void addCountry(Country)
+    {
+
+    }
+
+    public void removeCountry(Country)
+    {
+
+    }
+
+    public void addState(State)
+    {
+
+    }
+
+    public void removeState(State)
+    {
+
+    }
+
+    public void addLocation(Location)
+    {
+
+    }
+
+    public void removeLocation(Location)
+    {
+
+    }
+
+    public String toString()
+    {
+
+    }
+
+    public boolean equals(Object inObj)
+    {
+
+    }
+
+
+}

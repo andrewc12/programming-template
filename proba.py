@@ -7,7 +7,8 @@ PATH = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_ENVIRONMENT = Environment(
     autoescape=False,
     loader=FileSystemLoader(os.path.join(PATH, 'templates')),
-    trim_blocks=False)
+    trim_blocks=False,
+    extensions=['jinja2.ext.do'])
 
 
 def render_template(template_filename, context):
@@ -16,9 +17,48 @@ def render_template(template_filename, context):
 
 def create_index_html():
     fname = "output.html"
-    urls = ['http://example.com/1', 'http://example.com/2', 'http://example.com/3']
+    ds = {
+    "class": {
+                "opts": 0,
+                "name": "GeoData"
+            },
+    "fields": {
+                "opts": 0,
+                "data": [
+                        ("countries", "Country[]"),
+                        ("states", "State[]"),
+                        ("locations", "Location[]"),
+                        ("countryCount", "int"),
+                        ("stateCount", "int"),
+                        ("locationCount", "int")
+                        ]
+                },
+    "methods": {
+                "opts": {"makegetterssetters": True,
+                        "adddefaultmethods": True},
+                "data": [
+                        ("readFile", "String", "void"),
+                        ("writeFile", "String", "void"),
+                        ("addCountry", "Country", "void"),
+                        ("removeCountry", "Country", "void"),
+                        ("addState", "State", "void"),
+                        ("removeState", "State", "void"),
+                        ("addLocation", "Location", "void"),
+                        ("removeLocation", "Location", "void")
+                        ]
+                },
+    }
+    print(ds)
+    if ds['methods']['opts']['adddefaultmethods']:
+        defaultmethods = [
+                        ("toString", "", "String"),
+                        ("equals", "Object inObj", "boolean")
+                        ]
+        ds['methods']['data'].extend(defaultmethods)
+
+    
     context = {
-        'urls': urls
+        'ds': ds
     }
     #
     with open(fname, 'w') as f:

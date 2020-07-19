@@ -1,20 +1,57 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Proba</title>
-</head>
-<body>
-<center>
-    <h1>Proba</h1>
-    <p>{{ urls|length }} links</p>
-</center>
-<ol align="left">
-{% set counter = 0 -%}
-{% for url in urls -%}
-<li><a href="{{ url }}">{{ url }}</a></li>
-{% set counter = counter + 1 -%}
-{% endfor -%}
-</ol>
-</body>
-</html>
+/********************
+*Author: Andrew Innes
+*Date: 20XX/XX/XX
+*Purpose: 
+********************/
+
+import java.io.*;
+
+public class {{ ds.class.name }}
+{
+    //Class constants
+    /*public static final ;*/
+
+    //private class fields{% for field in ds.fields.data %}
+    private {{ field[1] }} {{ field[0] }};{% endfor %}
+
+    public {{ ds.class.name }}()
+    {
+{% if ds['methods']['opts']['makegetterssetters'] %}{% for field in ds['fields']['data'] %}
+        set{{field[0].capitalize()}}(  );{% endfor %}{% endif %}
+    }
+
+
+{% set parameters = [] %}{% for field in ds['fields']['data'] %}{% do parameters.append( field[1] + " in" + field[0].capitalize() ) %}{% endfor %}
+    public {{ ds.class.name }}({{ parameters | join( ", ") }})
+    {
+{% if ds['methods']['opts']['makegetterssetters'] %}{% for field in ds['fields']['data'] %}
+        set{{field[0].capitalize()}}( in{{field[0].capitalize()}} );{% endfor %}{% endif %}
+    }
+
+    public {{ ds.class.name }}({{ ds.class.name }} in{{ ds.class.name }})
+    {
+
+    }
+
+{% if ds['methods']['opts']['makegetterssetters'] %}
+{% for field in ds['fields']['data'] %}
+    public void set{{field[0].capitalize()}}({{ field[1] }} in{{field[0].capitalize()}})
+    {
+        {{ field[0] }} = in{{field[0].capitalize()}};
+    }
+
+    public {{ field[1] }} get{{field[0].capitalize()}}()
+    {
+        return {{ field[0] }};
+    }
+{% endfor %}
+{% endif %}
+
+{% for method in ds['methods']['data'] %}
+    public {{ method[2] }} {{ method[0] }}({{ method[1] }})
+    {
+
+    }
+{% endfor %}
+
+}
