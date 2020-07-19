@@ -15,8 +15,8 @@ def render_template(template_filename, context):
     return TEMPLATE_ENVIRONMENT.get_template(template_filename).render(context)
 
 
-def create_index_html():
-    fname = "output.html"
+def create_class_java():
+    fname = "outputclass.java"
     ds = {
     "class": {
                 "opts": 0,
@@ -62,12 +62,12 @@ def create_index_html():
     }
     #
     with open(fname, 'w') as f:
-        html = render_template('index.html', context)
-        f.write(html)
+        java = render_template('javaclass.jinja', context)
+        f.write(java)
 
 
 def main():
-    create_index_html()
+    create_class_java()
 
 #############################################################################
 
