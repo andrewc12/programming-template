@@ -23,6 +23,14 @@ def create_class_java(context):
         java = render_template('javaclass.jinja', context)
         f.write(java)
 
+def create_class_dot(context):
+    fname = "outputclass.dot"
+
+    #
+    with open(fname, 'w') as f:
+        uml = render_template('umlclassgraphviz.jinja', context)
+        f.write(uml)
+
 
 def main():
     ds = {
@@ -72,6 +80,7 @@ def main():
     }
     
     create_class_java(context)
+    create_class_dot(context)
 
 #############################################################################
 

@@ -1,0 +1,17 @@
+{# class #}
+
+    subgraph cluster_{{ds['class']['name']}}{
+        {{ds['class']['name']}} [
+            label = "
+            \\N\l |
+            |{# private fields #}{% for field in ds.fields.data %}
+            <{{ field[0] }}> - {{ field[0] }} : {{field[1]}}\l |{% endfor %}
+            |{# makegetterssetters #}{% if ds['methods']['opts']['makegetterssetters'] %}{% for field in ds['fields']['data'] %}
+            + set{{field[0].capitalize()}}() : {{field[1]}}\l |
+            + get{{field[0].capitalize()}}() : {{field[1]}}\l |{% endfor %}{% endif %}{# methods #}{% for method in ds['methods']['data'] %}
+            + {{ method[0] }}({{ method[1] }}) : {{ method[2] }}\l{% if loop.last is sameas False %} |{% endif %}{% endfor %}
+{# class footer #}
+            "
+        ]
+    }
+
