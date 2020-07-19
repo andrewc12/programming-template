@@ -15,8 +15,16 @@ def render_template(template_filename, context):
     return TEMPLATE_ENVIRONMENT.get_template(template_filename).render(context)
 
 
-def create_class_java():
+def create_class_java(context):
     fname = "outputclass.java"
+
+    #
+    with open(fname, 'w') as f:
+        java = render_template('javaclass.jinja', context)
+        f.write(java)
+
+
+def main():
     ds = {
     "class": {
                 "opts": 0,
@@ -48,7 +56,9 @@ def create_class_java():
                         ]
                 },
     }
+                
     print(ds)
+    
     if ds['methods']['opts']['adddefaultmethods']:
         defaultmethods = [
                         ("toString", "", "String"),
@@ -60,14 +70,8 @@ def create_class_java():
     context = {
         'ds': ds
     }
-    #
-    with open(fname, 'w') as f:
-        java = render_template('javaclass.jinja', context)
-        f.write(java)
-
-
-def main():
-    create_class_java()
+    
+    create_class_java(context)
 
 #############################################################################
 
