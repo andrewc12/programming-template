@@ -5,16 +5,17 @@ from jinja2 import Environment, BaseLoader
 import argparse
 import json
 
-def render_template(templatefile, context):
-    TEMPLATE_ENVIRONMENT = Environment(
+def render_template(template, context):
+    template_enviroment = Environment(
     autoescape=False,
     loader=BaseLoader(),
     trim_blocks=False,
-    extensions=['jinja2.ext.do']).from_string(templatefile.read())
-    return TEMPLATE_ENVIRONMENT.render(context)
+    extensions=['jinja2.ext.do']).from_string(template)
+    return template_enviroment.render(context)
 
 def render_template_to_file(templatefile, outputfile, context):
-    output = render_template(templatefile, context)
+    template = templatefile.read()
+    output = render_template(template, context)
     outputfile.write(output)
 
 def main():
@@ -28,8 +29,6 @@ def main():
     
     with args.contextfile as contextfile:
         context = json.load(contextfile)
-        
-    #print(context)
 
     with args.templatefile as templatefile, args.outfile as outputfile:
         render_template_to_file(templatefile, outputfile, context)
