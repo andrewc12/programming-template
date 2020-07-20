@@ -1,3 +1,4 @@
+{# header #}
 /********************
 *Author: Andrew Innes
 *Date: 20XX/XX/XX
@@ -12,10 +13,12 @@ public class {{ ds.class.name }}
     /*public static final ;*/
 
     //private class fields
+{# class fields #}
 {% for field in ds.fields.data %}
     private {{ field[1] }} {{ field[0] }};
 {% endfor %}
 
+{# make constructor #}
     public {{ ds.class.name }}()
     {
 {% if ds['methods']['opts']['makegetterssetters'] %}
@@ -25,7 +28,7 @@ public class {{ ds.class.name }}
 {% endif %}
     }
 
-
+{# make alternate constructor #}
 {% set parameters = [] %}
 {% for field in ds['fields']['data'] %}
 {% do parameters.append( field[1] + " in" + field[0].capitalize() ) %}
@@ -39,11 +42,13 @@ public class {{ ds.class.name }}
 {% endif %}
     }
 
+{# make copy constructor #}
     public {{ ds.class.name }}({{ ds.class.name }} in{{ ds.class.name }})
     {
 
     }
 
+{# make getters and setters #}
 {% if ds['methods']['opts']['makegetterssetters'] %}
 {% for field in ds['fields']['data'] %}
     public void set{{field[0].capitalize()}}({{ field[1] }} in{{field[0].capitalize()}})
@@ -55,15 +60,17 @@ public class {{ ds.class.name }}
     {
         return {{ field[0] }};
     }
+
 {% endfor %}
 {% endif %}
-
+{# make methods #}
 {% for method in ds['methods']['data'] %}
-
     public {{ method[2] }} {{ method[0] }}({{ method[1] }})
     {
 
     }
+
 {% endfor %}
 
+{# footer #}
 }
