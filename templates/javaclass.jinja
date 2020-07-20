@@ -11,21 +11,32 @@ public class {{ ds.class.name }}
     //Class constants
     /*public static final ;*/
 
-    //private class fields{% for field in ds.fields.data %}
-    private {{ field[1] }} {{ field[0] }};{% endfor %}
+    //private class fields
+{% for field in ds.fields.data %}
+    private {{ field[1] }} {{ field[0] }};
+{% endfor %}
 
     public {{ ds.class.name }}()
     {
-{% if ds['methods']['opts']['makegetterssetters'] %}{% for field in ds['fields']['data'] %}
-        set{{field[0].capitalize()}}(  );{% endfor %}{% endif %}
+{% if ds['methods']['opts']['makegetterssetters'] %}
+{% for field in ds['fields']['data'] %}
+        set{{field[0].capitalize()}}(  );
+{% endfor %}
+{% endif %}
     }
 
 
-{% set parameters = [] %}{% for field in ds['fields']['data'] %}{% do parameters.append( field[1] + " in" + field[0].capitalize() ) %}{% endfor %}
+{% set parameters = [] %}
+{% for field in ds['fields']['data'] %}
+{% do parameters.append( field[1] + " in" + field[0].capitalize() ) %}
+{% endfor %}
     public {{ ds.class.name }}({{ parameters | join( ", ") }})
     {
-{% if ds['methods']['opts']['makegetterssetters'] %}{% for field in ds['fields']['data'] %}
-        set{{field[0].capitalize()}}( in{{field[0].capitalize()}} );{% endfor %}{% endif %}
+{% if ds['methods']['opts']['makegetterssetters'] %}
+{% for field in ds['fields']['data'] %}
+        set{{field[0].capitalize()}}( in{{field[0].capitalize()}} );
+{% endfor %}
+{% endif %}
     }
 
     public {{ ds.class.name }}({{ ds.class.name }} in{{ ds.class.name }})
@@ -48,6 +59,7 @@ public class {{ ds.class.name }}
 {% endif %}
 
 {% for method in ds['methods']['data'] %}
+
     public {{ method[2] }} {{ method[0] }}({{ method[1] }})
     {
 
