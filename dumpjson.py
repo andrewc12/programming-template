@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import json
 
 def main():
     ds = {
@@ -46,17 +47,32 @@ def main():
         'ds': ds
     }
      
-    print(context)
+
+
+
+
+
+
     ds = {
-            "aggregate": [
+            "aggregation": [
                         ("Country", "country", "GeoData", "countries",),
-                        ("State", "state", "GeoData", "states",)
+                        ("State", "state", "GeoData", "states",),
+                        ("Location", "location", "GeoData", "locations",)
+                        ],
+            "inheritance": [
+                        ("Country", "country", "Area", "area",),
+                        ("State", "state", "Area", "area",)
+                        ],
+            "composition": [
+                        ("Coordinates", "coordinates", "Location", "coordinates",)
                         ]
         }
        
     context = {
         'ds': ds
     }
+    
+    print(json.dumps(context))
     
 #############################################################################
 
