@@ -33,9 +33,9 @@ digraph G {
     
     
     
-
+(# https://en.wikipedia.org/wiki/Class_diagram#Relationships #}
     
-{% for relation in ds['aggregate'] %}
+{% for relation in ds['aggregation'] %}
 
     // lhead allows us to point to the cluster's border instead of the node, as long as we add `compound = true` to the graph
     {{relation[0]}}:{{relation[1]}} -> {{relation[2]}}:{{relation[3]}} [
@@ -47,5 +47,27 @@ digraph G {
 
 {% endfor %}
 
+{% for relation in ds['composition'] %}
 
+    // lhead allows us to point to the cluster's border instead of the node, as long as we add `compound = true` to the graph
+    {{relation[0]}}:{{relation[1]}} -> {{relation[2]}}:{{relation[3]}} [
+        arrowhead = "diamond",
+        ltail = "cluster_{{relation[0]}}",
+        lhead = "cluster_{{relation[2]}}",
+        fillcolor="black"
+    ]
+
+{% endfor %}
+
+{% for relation in ds['inheritance'] %}
+
+    // lhead allows us to point to the cluster's border instead of the node, as long as we add `compound = true` to the graph
+    {{relation[0]}}:{{relation[1]}} -> {{relation[2]}}:{{relation[3]}} [
+        arrowhead = "normal",
+        ltail = "cluster_{{relation[0]}}",
+        lhead = "cluster_{{relation[2]}}",
+        fillcolor="white"
+    ]
+
+{% endfor %}
 }
