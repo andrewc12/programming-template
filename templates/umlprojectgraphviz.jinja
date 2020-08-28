@@ -28,12 +28,43 @@ digraph G {
     /* @NOTE: escaping spaces in the label using '\' doesn't work so use '&nbsp' or '&#92' instead. */
     
     
+{% for class in ds.classes %}
+{# class #}
+
+    subgraph cluster_{{class['class']['name']}}{
+        {{class['class']['name']}} [
+            label = "
+            <{{class['class']['name'].lower()}}> \N\l |
+            |
+{# private fields #}
+{% for field in class.fields.data %}
+            <{{ field[0] }}> - {{ field[0] }} : {{field[1]}}\l |
+{% endfor %}
+            |
+{# makegetterssetters #}
+{% if class['methods']['opts']['makegetterssetters'] %}
+{% for field in class['fields']['data'] %}
+            + set{{field[0].capitalize()}}() : {{field[1]}}\l |
+            + get{{field[0].capitalize()}}() : {{field[1]}}\l |
+{% endfor %}
+{% endif %}
+{# methods #}{% for method in class['methods']['data'] %}
+            + {{ method[0] }}({{ method[1] }}) : {{ method[2] }}\l{% if loop.last is sameas False %} |{% endif %}
+
+{% endfor %}
+{# class footer #}
+            "
+        ]
+    }
+
+{% endfor %}
+
 
     
     
     
     
-(# https://en.wikipedia.org/wiki/Class_diagram#Relationships #}
+/*# https://en.wikipedia.org/wiki/Class_diagram#Relationships #*/
     
 {% for relation in ds['aggregation'] %}
 
@@ -64,6 +95,18 @@ digraph G {
     // lhead allows us to point to the cluster's border instead of the node, as long as we add `compound = true` to the graph
     {{relation[0]}}:{{relation[1]}} -> {{relation[2]}}:{{relation[3]}} [
         arrowhead = "normal",
+        ltail = "cluster_{{relation[0]}}",
+        lhead = "cluster_{{relation[2]}}",
+        fillcolor="white"
+    ]
+
+{% endfor %}
+
+{% for relation in ds['dependency'] %}
+
+    // lhead allows us to point to the cluster's border instead of the node, as long as we add `compound = true` to the graph
+    {{relation[0]}}:{{relation[1]}} -> {{relation[2]}}:{{relation[3]}} [
+        arrowhead = "vee",
         ltail = "cluster_{{relation[0]}}",
         lhead = "cluster_{{relation[2]}}",
         fillcolor="white"

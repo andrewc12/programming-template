@@ -1,73 +1,71 @@
 #!/usr/bin/env python
 import json
 
+
 def main():
+#classes
+#classname
+#field, data type
+#method, parameter type, return type
+
+#relationships
+#tail class, tail class name, head class, head field
+            
     ds = {
-    "class": {
-                "opts": 0,
-                "name": "GeoData"
-            },
-    "fields": {
-                "opts": 0,
-                "data": [
-                        ("countries", "Country[]"),
-                        ("states", "State[]"),
-                        ("locations", "Location[]"),
-                        ("countryCount", "int"),
-                        ("stateCount", "int"),
-                        ("locationCount", "int")
-                        ]
-                },
-    "methods": {
-                "opts": {"makegetterssetters": True,
-                        "adddefaultmethods": True},
-                "data": [
-                        ("readFile", "String", "void"),
-                        ("writeFile", "String", "void"),
-                        ("addCountry", "Country", "void"),
-                        ("removeCountry", "Country", "void"),
-                        ("addState", "State", "void"),
-                        ("removeState", "State", "void"),
-                        ("addLocation", "Location", "void"),
-                        ("removeLocation", "Location", "void")
-                        ]
-                },
-    }
-                
-    
-    if ds['methods']['opts']['adddefaultmethods']:
-        defaultmethods = [
-                        ("toString", "", "String"),
-                        ("equals", "Object inObj", "boolean")
-                        ]
-        ds['methods']['data'].extend(defaultmethods)
-
-    
-    context = {
-        'ds': ds
-    }
-     
-
-
-
-
-
-
-    ds = {
+            "classes": [
+                            {
+                            "class": {
+                                        "opts": 0,
+                                        "name": "DSACircularQueue"
+                                    },
+                            "fields": {
+                                        "opts": 0,
+                                        "data": [
+                                                ("objArray", "Object[]"),
+                                                ("size", "int"),
+                                                ("count", "int"),
+                                                ("head", "int"),
+                                                ("tail", "int")
+                                                ]
+                                        },
+                            "methods": {
+                                        "opts": {"makegetterssetters": False,
+                                                "adddefaultmethods": False},
+                                        "data": [
+                                                ("alternate Constructor", "int", "void"),
+                                                ("enqueue", "Object", "void"),
+                                                ("dequeue", "void", "Object"),
+                                                ("peek", "void", "Object"),
+                                                ("isEmpty", "void", "boolean"),
+                                                ("isFull", "void", "boolean"),
+                                                ("getCount", "void", "int")
+                                                ]
+                                        },
+                            }
+                        ],
             "aggregation": [
-                        ("Country", "country", "GeoData", "countries",),
-                        ("State", "state", "GeoData", "states",),
-                        ("Location", "location", "GeoData", "locations",)
                         ],
             "inheritance": [
-                        ("Country", "country", "Area", "area",),
-                        ("State", "state", "Area", "area",)
+                        ("DSAShufflingQueue", "dsashufflingqueue", "DSAQueue", "dsaqueue",),
+                        ("DSACircularQueue", "dsacircularqueue", "DSAQueue", "dsaqueue",)
                         ],
             "composition": [
-                        ("Coordinates", "coordinates", "Location", "coordinates",)
+                        ],
+            "dependency": [
+                        ("DSAQueueTestHarness", "dsaqueuetestharness", "DSAShufflingQueue", "dsashufflingqueue",),
+                        ("DSAQueueTestHarness", "dsaqueuetestharness", "DSACircularQueue", "dsacircularqueue",),
+                        ("DSAStackTestHarness", "dsastacktestharness", "DSAStack", "dsastack",)
                         ]
         }
-       
+    
+    for i in ds['classes']:
+        if i['methods']['opts']['adddefaultmethods']:
+            defaultmethods = [
+                            ("toString", "", "String"),
+                            ("equals", "Object inObj", "boolean")
+                            ]
+            i['methods']['data'].extend(defaultmethods)
+
     context = {
         'ds': ds
     }
